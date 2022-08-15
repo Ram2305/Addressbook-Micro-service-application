@@ -1,0 +1,51 @@
+pipeline{
+   
+  tools{
+    jdk 'myjava'
+    maven 'mymaven'
+  }
+  agent none
+  stages{
+    stage('clone repo'){
+      agent any
+      steps{
+        git 'https://github.com/Ram2305/Addressbook-Micro-service-application.git'
+        }
+    }
+    stage('Compile'){
+      agent {label 'Linux_Slave'}
+      steps{
+       git 'https://github.com/Ram2305/Addressbook-Micro-service-application.git'
+       sh 'mvn compile'
+        }
+    }
+    stage('CodeReview'){
+       agent {label 'Linux_Slave'}
+      steps{
+       git 'https://github.com/Ram2305/Addressbook-Micro-service-application.git'
+       sh 'mvn pmd:pmd'
+        }
+    }
+    stage('Unit Test'){
+        agent {label 'Linux_Slave'}
+      steps{
+        git 'https://github.com/Ram2305/Addressbook-Micro-service-application.git'
+       sh 'mvn test'
+        }
+    }
+   stage('CodeCoverage'){
+      agent any
+      steps{
+      
+      sh 'mvn cobertura:cobertura -Dcobertura.format=xml'
+        }
+    }
+       stage('Packge'){
+         agent {label 'Linux_Slave'}
+      steps{
+         
+       sh 'mvn package'
+        }
+    }
+  }
+}

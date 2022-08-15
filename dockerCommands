@@ -1,0 +1,5 @@
+# Running the application on docker containers 
+docker run --name app -itd  -P ram2305/addressbook-micro-service-app:v1 
+
+# To see running containers
+docker ps -a 
