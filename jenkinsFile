@@ -40,7 +40,7 @@ pipeline{
       sh 'mvn cobertura:cobertura -Dcobertura.format=xml'
         }
     }
-       stage('Packge'){
+       stage('Package'){
          agent {label 'Linux_Slave'}
       steps{
          
